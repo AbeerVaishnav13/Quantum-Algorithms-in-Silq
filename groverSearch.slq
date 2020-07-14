@@ -46,6 +46,7 @@ def main() {
 		anc := 0:B;
 		r := 1:B;
 
+		// Multi-Controlled X gate
 		for i in [0..n) {
 			if key[i] { r &= x[i]; }
 			else { r &= X(x[i]); }

@@ -16,20 +16,21 @@ def predictNumber[n:!N](f:!(const uint[n] !-> B)):!N {
 
 def main() {
 	// Generate a random number
-	b := measure(H(0:B), H(0:B), H(0:B), H(0:B), H(0:B)) as !uint[5];
+	key := measure(H(0:B), H(0:B), H(0:B), H(0:B), H(0:B)) as !uint[5];
 
 	// Lambda function for creating the oracle (BlackBox function)
-	createOracle := lambda[n:!N](b:!uint[n])(const x:uint[n]):B {
+	createOracle := lambda[n:!N](key:!uint[n])(const x:uint[n]):B {
 		anc := H(X(0:B));
 
+		// Phase kick-back induced on data qubits using ancilla qubit.
 		for i in [0..n) {
-			anc xorb= b[i] & x[i];
+			anc xorb= key[i] & x[i];
 		}
 
 		return anc;
 	};
 
-	f := createOracle(b);
+	f := createOracle(key);
 
-	return (b, predictNumber(f));
+	return (key, predictNumber(f));
 }
