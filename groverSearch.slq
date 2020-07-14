@@ -39,7 +39,7 @@ def search[n:!N](f:!(uint[n] !-> lifted B)):uint[n] {
 def main() {
 	// To generate a random number every time we run the program.
 	key := measure(H(0:B), H(0:B), H(0:B), H(0:B), H(0:B)) as !uint[5];
-	print(b);
+	print(key);
 
 	// Lambda function to create oracle (or BlackBox function)
 	createOracle := lambda[n:!N](key:!uint[n])(x:uint[n])lifted:B {
