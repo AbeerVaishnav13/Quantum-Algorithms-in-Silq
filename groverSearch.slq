@@ -1,0 +1,63 @@
+def groverDiff[n:!N](records:uint[n])mfree:uint[n] {
+	// Hadamard gates to all data qubits
+	for k in [0..n) { records[k] := H(records[k]); }
+
+	// Multi-Controlled phase gate
+	if records != 0 {
+		phase(π);
+	}
+
+	// Hadamard gates to all data qubits
+	for k in [0..n) { records[k] := H(records[k]); }
+
+	return records;
+}
+
+def search[n:!N](f:!(uint[n] !-> lifted B)):uint[n] {
+	// Calculate number of iterations
+	num_iter := floor(π/(4 * asin(2^(-n/2))));
+
+	// Initialize the record pointer to Zero
+	records := 0:uint[n];
+
+	// Put the record pointer register in superposition
+	// of all possible states.
+	for k in [0..n) { records[k] := H(records[k]); }
+
+	// Implement the oracle f() and groverDiff()
+	// `num_iter` times for amplitude amplification of
+	// the |key⟩ or |ω*⟩ state
+	for k in [0..num_iter){
+		if f(records) { phase(π); }
+		records := groverDiff(records);
+	}
+
+	// Return the result
+	return records;
+}
+
+def main() {
+	// To generate a random number every time we run the program.
+	key := measure(H(0:B), H(0:B), H(0:B), H(0:B), H(0:B)) as !uint[5];
+	print(b);
+
+	// Lambda function to create oracle (or BlackBox function)
+	createOracle := lambda[n:!N](key:!uint[n])(x:uint[n])lifted:B {
+		anc := 0:B;
+		r := 1:B;
+
+		for i in [0..n) {
+			if key[i] { r &= x[i]; }
+			else { r &= X(x[i]); }
+		}
+		if r { anc := X(anc); }
+
+		forget(r);
+		return anc;
+	};
+
+	// Generating the oracle.
+	f := createOracle(key);
+
+	return search(f);
+}

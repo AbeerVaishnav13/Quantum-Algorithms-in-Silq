@@ -1,0 +1,35 @@
+def predictNumber[n:!N](f:!(const uint[n] !-> B)):!N {
+	qr := 0:uint[n];
+
+	// Put the register in superposition
+	for i in [0..n) { qr[i] := H(qr[i]); }
+
+	// Call BlackBox function
+	measure(f(qr));
+
+	// Collapse the wave-function
+	for i in [0..n) { qr[i] := H(qr[i]); }
+
+	// Measure the result
+	return measure(qr) as !N;
+}
+
+def main() {
+	// Generate a random number
+	b := measure(H(0:B), H(0:B), H(0:B), H(0:B), H(0:B)) as !uint[5];
+
+	// Lambda function for creating the oracle (BlackBox function)
+	createOracle := lambda[n:!N](b:!uint[n])(const x:uint[n]):B {
+		anc := H(X(0:B));
+
+		for i in [0..n) {
+			anc xorb= b[i] & x[i];
+		}
+
+		return anc;
+	};
+
+	f := createOracle(b);
+
+	return (b, predictNumber(f));
+}
