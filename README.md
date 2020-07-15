@@ -34,6 +34,12 @@ augroup filetypedetect
 	au BufNewFile,BufRead *.slq		command! Runsilq call CompileSILQ('y')
 augroup END
 ```
+### Look and feel of the Vim extensions
+
+![:Runsilq](./images/SilqRun.png)
+![:Compsilq](./images/SilqError.png)
+
+A representation of the silq vim extension using `gruvbox colorscheme` in `neovim 0.4.3`
 
 **NOTE:**
 
