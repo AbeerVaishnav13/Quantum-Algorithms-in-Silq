@@ -33,7 +33,7 @@ syn keyword silqStdFunc H phase rotX rotY rotZ
 syn keyword silqStdFunc X Y Z dup reverse
 syn keyword silqStdFunc lambda λ xorb div
 syn keyword silqStdFunc  __show __query
-syn match	silqStdFunc "[+\-*/&|\^]"
+syn match	silqStdFunc "[+\-*/&|\^%]"
 syn match	silqStdFunc "<<"
 syn match	silqStdFunc ">>"
 
