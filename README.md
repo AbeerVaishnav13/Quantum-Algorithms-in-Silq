@@ -34,15 +34,16 @@ augroup filetypedetect
 	au BufNewFile,BufRead *.slq		command! Runsilq call CompileSILQ('y')
 augroup END
 ```
-### Look and feel of the Vim extensions
-
-![:Runsilq](./images/SilqRun.png)
-![:Compsilq](./images/SilqError.png)
-
-A representation of the silq vim extension using `gruvbox colorscheme` in `neovim 0.4.3`
 
 **NOTE:**
 
 1. Change the variable `g:path_to_silq_files` to the location where you have downloaded this repository in your system.
 2. Change the variable `g:path_to_silq_executable` to the path of your SILQ executable.
 3. Now you can compile SILQ files by typing `:Compsilq` and run SILQ files by typing `:Runsilq` within `Vim editor`.
+
+### Look and feel of the Vim extensions
+
+![:Runsilq](./images/SilqRun.png)
+![:Compsilq](./images/SilqError.png)
+
+A representation of the silq vim extension using `gruvbox colorscheme` in `neovim 0.4.3`
