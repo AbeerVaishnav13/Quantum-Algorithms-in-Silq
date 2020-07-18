@@ -39,7 +39,7 @@ syn match	silqStdFunc ">>"
 
 " Silq Inbuilt Math functions
 syn keyword silqInbuilt sin cos tan asin acos atan
-syn keyword silqInbuilt abs min max pow sqrt round
+syn keyword silqInbuilt abs min max powm sqrt round
 syn keyword silqInbuilt floor ceil log exp
 
 " Silq Structures
