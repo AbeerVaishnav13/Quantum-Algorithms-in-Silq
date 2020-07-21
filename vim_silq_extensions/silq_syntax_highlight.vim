@@ -24,16 +24,16 @@ syn match   silqNumber	"\%(^\|\W\)\zs\d*\.\d\+\%([eE][+-]\=\d\+\)\=[jJ]\=\>"
 
 " Special powers of silq (quantum stuff)
 syn keyword silqSpecial lifted mfree qfree const quantum classical
-syn keyword silqSpecial quantum classical sub
+syn keyword silqSpecial quantum classical
 syn match	silqSpecial "[!]"
 
 " Silq Standard Functions
 syn keyword silqStdFunc measure forget
 syn keyword silqStdFunc H phase rotX rotY rotZ
 syn keyword silqStdFunc X Y Z dup reverse
-syn keyword silqStdFunc lambda λ xorb div
+syn keyword silqStdFunc lambda λ xorb div sub
 syn keyword silqStdFunc  __show __query
-syn match	silqStdFunc "[+\-*/&|\^%]"
+syn match	silqStdFunc "[+\-*/&|\^%~]"
 syn match	silqStdFunc "<<"
 syn match	silqStdFunc ">>"
 

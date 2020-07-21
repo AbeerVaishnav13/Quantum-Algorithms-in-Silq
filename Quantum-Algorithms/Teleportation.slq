@@ -1,0 +1,41 @@
+def alice[n:!ℕ](msg:uint[n], x:uint[n]):!uint[n]^2 {
+	for i in [0..n) {
+		if msg[i] { x[i] := X(x[i]); }
+		msg[i] := H(msg[i]);
+	}
+
+	return measure(msg, x);
+}
+
+def bob[n:!ℕ](y:uint[n], aliceBits:!uint[n]^2):uint[n] {
+	for i in [0..n) {
+		if aliceBits[0][i] { y[i] := Z(y[i]); }
+		if aliceBits[1][i] { y[i] := X(y[i]); }
+	}
+
+	return y;
+}
+
+n := 2;
+
+def main() {
+	x := 0:uint[n];
+	for i in [0..n) { x[i] := H(x[i]); }
+
+	y := 0:uint[n];
+	for i in [0..n) {
+		if x[i] { y[i] := X(y[i]); }
+	}
+
+	msg := 0:uint[n];
+	msg[0] := rotX(π/4, msg[0]);
+	msg[1] := rotX(π/2, msg[1]);
+
+	// Call alice function
+	aliceBits := alice(msg, x);
+
+	// Call bob function
+	received := bob(y, aliceBits);
+
+	return received;
+}
