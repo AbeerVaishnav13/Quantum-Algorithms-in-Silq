@@ -49,7 +49,7 @@ syn keyword silqStructure vector array
 syn keyword silqBasicFunc assert print
 
 " Silq datatypes
-syn keyword silqType N B Z Q R C ℕ 𝔹 ℤ ℚ ℝ ℂ Bool none
+syn keyword silqType ℕ 𝔹 ℤ ℚ ℝ ℂ Bool none
 syn keyword silqType uint int float rat string
 
 " Silq Comments

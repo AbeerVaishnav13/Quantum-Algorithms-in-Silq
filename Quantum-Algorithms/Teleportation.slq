@@ -1,41 +1,55 @@
-def alice[n:!ℕ](msg:uint[n], x:uint[n]):!uint[n]^2 {
+// Function for alice to  operate on 'msg'
+def alice[n:!ℕ](msg:uint[n], qr:uint[n]):!uint[n]^2 {
+	// Perform a Bell measurement
 	for i in [0..n) {
-		if msg[i] { x[i] := X(x[i]); }
+		if msg[i] { qr[i] := X(qr[i]); }
 		msg[i] := H(msg[i]);
 	}
 
-	return measure(msg, x);
+	return measure(msg, qr);
 }
 
-def bob[n:!ℕ](y:uint[n], aliceBits:!uint[n]^2):uint[n] {
+// Function for bob to recreate 'msg'
+def bob[n:!ℕ](qr:uint[n], aliceBits:!uint[n]^2):uint[n] {
+	// Conditionally perform bit-flip and/or phase-flip on bob's qureg
 	for i in [0..n) {
-		if aliceBits[0][i] { y[i] := Z(y[i]); }
-		if aliceBits[1][i] { y[i] := X(y[i]); }
+		if aliceBits[0][i] { qr[i] := Z(qr[i]); }
+		if aliceBits[1][i] { qr[i] := X(qr[i]); }
 	}
 
-	return y;
+	return qr;
 }
 
-n := 2;
-
-def main() {
+def createBellPair[n:!ℕ]():uint[n]^2 {
+	// Create qureg0 in superposition
 	x := 0:uint[n];
 	for i in [0..n) { x[i] := H(x[i]); }
 
+	// Perform a CNOT on each qubit of qureg1
 	y := 0:uint[n];
 	for i in [0..n) {
 		if x[i] { y[i] := X(y[i]); }
 	}
 
+	return (x, y);
+}
+
+n := 2;
+
+def main() {
+	// Create entangled Bell Pair
+	(qr0, qr1) := createBellPair[n]();
+
+	// Create the msg bit-string
 	msg := 0:uint[n];
 	msg[0] := rotX(π/4, msg[0]);
 	msg[1] := rotX(π/2, msg[1]);
 
 	// Call alice function
-	aliceBits := alice(msg, x);
+	aliceBits := alice(msg, qr0);
 
 	// Call bob function
-	received := bob(y, aliceBits);
+	received := bob(qr1, aliceBits);
 
 	return received;
 }

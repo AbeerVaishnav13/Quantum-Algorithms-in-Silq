@@ -1,4 +1,4 @@
-def groverDiff[n:!N](records:uint[n])mfree:uint[n] {
+def groverDiff[n:!ℕ](records:uint[n])mfree:uint[n] {
 	// Hadamard gates to all data qubits
 	for k in [0..n) { records[k] := H(records[k]); }
 
@@ -13,7 +13,7 @@ def groverDiff[n:!N](records:uint[n])mfree:uint[n] {
 	return records;
 }
 
-def search[n:!N](f:!(uint[n] !-> lifted B)):uint[n] {
+def search[n:!ℕ](f:!(uint[n] !-> lifted 𝔹)):uint[n] {
 	// Calculate number of iterations
 	num_iter := floor(π/(4 * asin(2^(-n/2))));
 
@@ -38,13 +38,13 @@ def search[n:!N](f:!(uint[n] !-> lifted B)):uint[n] {
 
 def main() {
 	// To generate a random number every time we run the program.
-	key := measure(H(0:B), H(0:B), H(0:B), H(0:B), H(0:B)) as !uint[5];
+	key := measure(H(0:𝔹), H(0:𝔹), H(0:𝔹), H(0:𝔹), H(0:𝔹)) as !uint[5];
 	print(key);
 
 	// Lambda function to create oracle (or BlackBox function)
-	createOracle := lambda[n:!N](key:!uint[n])(x:uint[n])lifted:B {
-		anc := 0:B;
-		r := 1:B;
+	createOracle := lambda[n:!ℕ](key:!uint[n])(x:uint[n])lifted:𝔹 {
+		anc := 0:𝔹;
+		r := 1:𝔹;
 
 		// Multi-Controlled X gate
 		for i in [0..n) {
