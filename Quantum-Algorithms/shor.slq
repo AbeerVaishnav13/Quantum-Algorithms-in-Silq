@@ -47,9 +47,7 @@ def factorise[n:!ℕ](a:!ℕ, N:!uint[n]):!ℝ[] {
 		measure(w);
 
 		x := invQFT(x); // Converting from fourier basis to computational basis
-		meas_val := measure(x) as !ℕ;
-		print(meas_val);
-		got_factors = extract_factors(a as !ℕ, N as !ℕ, meas_val);
+		got_factors = extract_factors(a as !ℕ, N as !ℕ, measure(x) as !ℕ);
 
 		if got_factors[0] == 1 || got_factors[1] == 1 {
 			got_factors[0] = 0; got_factors[1] = 0;
