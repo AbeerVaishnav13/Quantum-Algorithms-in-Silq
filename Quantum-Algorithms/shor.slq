@@ -1,3 +1,12 @@
+// Some examples
+//a := 5; N := 14:!uint[4];
+a := 7; N := 15:!uint[4];
+//a := 13; N := 21:!uint[5];
+//a := 13; N := 22:!uint[5];
+//a := 11; N := 26:!uint[5];
+//a := 11; N := 35:!uint[6]; // Takes a really long time
+def main() => factorise(a, N);
+
 // Euclid's algorithm for GCD
 def gcd(a:!ℝ, b:!ℝ):!ℝ {
 	if a == 0 {
@@ -16,15 +25,16 @@ def invQFT[n:!ℕ](x:uint[n]):uint[n] {
 		}
 		x[n-i-1] := H(x[n-i-1]);
 	}
-
 	return x;
 }
 
 // Classical post-processing
-def extract_factors(a:!ℕ, N:!ℕ, meas_val:!ℕ):!ℝ[] {
-	if (meas_val % 2) != 0 { return (0, 1); }
+def extract_factors(a:!ℕ, N:!ℕ, r:!ℕ):!ℝ[] {
+	// 'meas_val' has to be even
+	if (r % 2) != 0 { return (0, 1); }
 
-	num := (a^(meas_val/2) % N);
+	// (a^(r/2) mod N) + 1 != 0 mod N
+	num := (a^(r/2) % N);
 	if ((num + 1) % 15) == 0 { return (1, 0); }
 
 	return (gcd(num+1, N), gcd(num-1, N));
@@ -52,11 +62,14 @@ def factorise[n:!ℕ](a:!ℕ, N:!uint[n]):!ℝ[] {
 		if got_factors[0] == 1 || got_factors[1] == 1 {
 			got_factors[0] = 0; got_factors[1] = 0;
 		}
+
+		if got_factors[0] != 0 && (N as !ℝ) % got_factors[0] == 0 {
+			got_factors[1] = (N as !ℝ) / got_factors[0];
+		}
+		else if got_factors[1] != 0 && (N as !ℝ) % got_factors[1] == 0 {
+			got_factors[1] = (N as !ℝ) / got_factors[1];
+		}
 	}
 
 	return got_factors;
 }
-
-a := 7; N := 15:!uint[4];
-//a := 13; N := 21:!uint[5];
-def main() => factorise(a, N);
