@@ -59,10 +59,13 @@ def factorise[n:!ℕ](a:!ℕ, N:!uint[n]):!ℝ[] {
 		x := invQFT(x); // Converting from fourier basis to computational basis
 		got_factors = extract_factors(a as !ℕ, N as !ℕ, measure(x) as !ℕ);
 
+		// For resolving partial solution cases:
+		// Got both factors
 		if got_factors[0] == 1 || got_factors[1] == 1 {
 			got_factors[0] = 0; got_factors[1] = 0;
 		}
 
+		// Got only one of the factors
 		if got_factors[0] != 0 && (N as !ℝ) % got_factors[0] == 0 {
 			got_factors[1] = (N as !ℝ) / got_factors[0];
 		}
